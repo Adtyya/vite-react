@@ -6,34 +6,54 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 
 const { Header, Sider, Content } = Layout;
 
 const App = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedPg, setSelect] = useState(location.pathname);
+
+  useEffect(() => {
+    if (location) {
+      if (selectedPg !== location.pathname) {
+        setSelect(location.pathname);
+      }
+    }
+  }, [location, selectedPg]);
+
+  const handleClick = (e) => {
+    navigate(e.key);
+    // setSelect(e.key);
+    // console.log(selectedPg);
+  };
 
   return (
     <Layout style={{ height: "100%" }}>
       <Sider trigger={null} collapsible collapsed={collapsed} theme="light">
         <Menu
+          onClick={handleClick}
           theme="light"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={[selectedPg]}
           items={[
             {
-              key: "1",
+              key: "/",
               icon: <HomeOutlined />,
               label: "Home",
             },
             {
-              key: "2",
+              key: "/about",
               icon: <InfoCircleOutlined />,
               label: "About",
             },
             {
-              key: "3",
+              key: "/contact",
               icon: <PhoneOutlined />,
               label: "Contact",
             },
@@ -60,7 +80,7 @@ const App = ({ children }) => {
           style={{
             margin: "24px 16px",
             padding: 24,
-            minHeight: 280,
+            minHeight: "85vh",
           }}
         >
           {children}

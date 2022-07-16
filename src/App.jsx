@@ -1,35 +1,17 @@
-import Dummy from "./lib/dummy.js";
-import { Table } from "antd";
-import Layout from "./layout/Layout";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/index";
+import Detail from "./pages/Detail";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const App = () => {
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Tittle",
-      dataIndex: "title",
-      key: "title",
-    },
-    {
-      title: "Body",
-      dataIndex: "body",
-      key: "body",
-    },
-    {
-      title: "Actions",
-      dataIndex: "actions",
-      render: (title, record) => <a href={`/user/${record.title}`}>Lihat</a>,
-    },
-  ];
-
   return (
-    <Layout>
-      <Table dataSource={Dummy} columns={columns} />
-    </Layout>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/detail/:id" element={<Detail />} />
+    </Routes>
   );
 };
 
